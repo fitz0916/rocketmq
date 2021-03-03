@@ -68,6 +68,13 @@ public class NamesrvStartup {
         return null;
     }
 
+    /**
+     * 构造namesrvController 并且将NamesrvConfig和NettyServerConfig 传递给它
+     * @param args
+     * @return
+     * @throws IOException
+     * @throws JoranException
+     */
     public static NamesrvController createNamesrvController(String[] args) throws IOException, JoranException {
         System.setProperty(RemotingCommand.REMOTING_VERSION_KEY, Integer.toString(MQVersion.CURRENT_VERSION));
         //PackageConflictDetect.detectFastjson();
@@ -85,6 +92,7 @@ public class NamesrvStartup {
         if (commandLine.hasOption('c')) {
             String file = commandLine.getOptionValue('c');
             if (file != null) {
+                //从配置文件中读取配置
                 InputStream in = new BufferedInputStream(new FileInputStream(file));
                 properties = new Properties();
                 properties.load(in);
@@ -136,7 +144,7 @@ public class NamesrvStartup {
         if (null == controller) {
             throw new IllegalArgumentException("NamesrvController is null");
         }
-
+        //初始化namesrvController
         boolean initResult = controller.initialize();
         if (!initResult) {
             controller.shutdown();

@@ -74,9 +74,9 @@ public class NamesrvController {
     }
 
     public boolean initialize() {
-
+        //加载配置
         this.kvConfigManager.load();
-
+        //创建netty服务端
         this.remotingServer = new NettyRemotingServer(this.nettyServerConfig, this.brokerHousekeepingService);
 
         this.remotingExecutor =
@@ -153,6 +153,7 @@ public class NamesrvController {
     }
 
     public void start() throws Exception {
+        //启动服务端
         this.remotingServer.start();
 
         if (this.fileWatchService != null) {
